@@ -58,7 +58,7 @@ if(searchMode==='song'){
  if(targetArtist && !terms.some(t=>norm(t)===norm(targetArtist.api)))terms.push(targetArtist.api);
  const batches=await Promise.all(terms.map(async t=>{
    const params=new URLSearchParams({term:t,entity:'song',limit:'50',media:'music',country:'US',explicit:'Yes'});
-      const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://itunes.apple.com/search?' + params));
+         const response = await fetch('https://itunes.apple.com/search?' + params);
 
    if(!response.ok)throw Error('API');
    return (await response.json()).results||[];
@@ -95,7 +95,8 @@ if(searchMode==='song'){
  songs=songs.map(s=>({...s,__rank:score(s)})).sort((a,b)=>b.__rank-a.__rank||a.__order-b.__order).slice(0,24);
 } else {
  const params=new URLSearchParams({term,entity:'song',limit:'50',media:'music',country:'US',explicit:'Yes'});
-    const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://itunes.apple.com/search?' + params));
+       const response = await fetch('https://itunes.apple.com/search?' + params);
+
 if(!response.ok)throw Error('API');
  const data=await response.json();if(thisRequest!==requestId)return;songs=(data.results||[]).slice(0,24);
 }
